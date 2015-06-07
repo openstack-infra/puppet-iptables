@@ -38,7 +38,14 @@ class iptables::params {
     }
     'Debian': {
       $package_name = 'iptables-persistent'
-      $service_name = 'iptables-persistent'
+      case $::operatingsystemrelease {
+        /15.04/: {
+          $service_name = 'netfilter-persistent'
+        }
+        default: {
+          $service_name = 'iptables-persistent'
+        }
+      }
       $rules_dir = '/etc/iptables'
       $ipv4_rules = '/etc/iptables/rules.v4'
       $ipv6_rules = '/etc/iptables/rules.v6'
