@@ -1,0 +1,4 @@
+# Public TCP ports
+<% @public_tcp_ports.each do |port| -%>
+-A openstack-INPUT -m state --state NEW -m tcp -p tcp --dport <%= port %> -j ACCEPT
+<% end -%>

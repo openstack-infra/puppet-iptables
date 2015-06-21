@@ -48,12 +48,17 @@ class iptables(
 
   # This file is not required on Red Hat distros... but it
   # won't hurt to softlink to it either
-  file { "${::iptables::params::rules_dir}/rules":
+  # build it up with concat
+  # 0xx Headers
+  # 1xx TCP
+  # 2xx UDP
+  # 3xx HOSTS
+  # 9xx Footers
+  concat { "${::iptables::params::rules_dir}/rules":
     ensure  => present,
     owner   => 'root',
     group   => 'root',
     mode    => '0640',
-    content => template('iptables/rules.erb'),
     require => [
       Package['iptables'],
       File[$::iptables::params::rules_dir],
@@ -61,6 +66,38 @@ class iptables(
     # When this file is updated, make sure the rules get reloaded.
     notify  => $notify_iptables,
   }
+
+
+  concat::fragment { 'iptables-4-header':
+    target  => "${::iptables::params::rules_dir}/rules",
+    content => template('iptables/rules4_header.erb'),
+    order   => '01'
+  }
+
+  concat::fragment { 'iptables-4-tcp':
+    target  => "${::iptables::params::rules_dir}/rules",
+    content => template('iptables/rules4_tcp.erb'),
+    order   => '100'
+  }
+
+  concat::fragment { 'iptables-4-udp':
+    target  => "${::iptables::params::rules_dir}/rules",
+    content => template('iptables/rules4_udp.erb'),
+    order   => '200'
+  }
+
+  concat::fragment { 'iptables-4-hosts':
+    target  => "${::iptables::params::rules_dir}/rules",
+    content => template('iptables/rules4_hosts.erb'),
+    order   => '300'
+  }
+
+  concat::fragment { 'iptables-4-footer':
+    target  => "${::iptables::params::rules_dir}/rules",
+    content => template('iptables/rules4_footer.erb'),
+    order   => '999'
+  }
+
 
   file { $::iptables::params::ipv4_rules:
     ensure  => link,
@@ -72,18 +109,53 @@ class iptables(
     notify  => $notify_iptables,
   }
 
-  file { $::iptables::params::ipv6_rules:
+  # build it up with concat
+  # 0xx Headers
+  # 1xx TCP
+  # 2xx UDP
+  # 3xx HOSTS
+  # 9xx Footers
+  concat { $::iptables::params::ipv6_rules:
     ensure  => present,
     owner   => 'root',
     group   => 'root',
     mode    => '0640',
-    content => template('iptables/rules.v6.erb'),
     require => [
       Package['iptables'],
       File[$::iptables::params::rules_dir],
     ],
     # When this file is updated, make sure the rules get reloaded.
     notify  => $notify_iptables,
-    replace => true,
   }
+
+  concat::fragment { 'iptables-6-header':
+    target  => $::iptables::params::ipv6_rules,
+    content => template('iptables/rules6_header.erb'),
+    order   => '01'
+  }
+
+  concat::fragment { 'iptables-6-tcp':
+    target  => $::iptables::params::ipv6_rules,
+    content => template('iptables/rules6_tcp.erb'),
+    order   => '100'
+  }
+
+  concat::fragment { 'iptables-6-udp':
+    target  => $::iptables::params::ipv6_rules,
+    content => template('iptables/rules6_udp.erb'),
+    order   => '200'
+  }
+
+  concat::fragment { 'iptables-6-hosts':
+    target  => $::iptables::params::ipv6_rules,
+    content => template('iptables/rules6_hosts.erb'),
+    order   => '300'
+  }
+
+  concat::fragment { 'iptables-6-footer':
+    target  => $::iptables::params::ipv6_rules,
+    content => template('iptables/rules6_footer.erb'),
+    order   => '999'
+  }
+
 }
