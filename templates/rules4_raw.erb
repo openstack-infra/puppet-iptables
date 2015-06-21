@@ -1,0 +1,4 @@
+# Per-host rules
+<% @rules4.each do |rule| -%>
+-A openstack-INPUT <%= rule %>
+<% end -%>
