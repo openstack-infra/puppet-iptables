@@ -1,0 +1,4 @@
+# Public UDP ports
+<% @public_udp_ports.each do |port| -%>
+-A openstack-INPUT -m udp -p udp --dport <%= port %> -j ACCEPT
+<% end -%>
