@@ -16,7 +16,7 @@ class iptables(
   $public_udp_ports = []
 ) {
 
-  include iptables::params
+  include ::iptables::params
 
   package { 'iptables':
     ensure => present,
@@ -42,8 +42,8 @@ class iptables(
   }
 
   file { $::iptables::params::rules_dir:
-    ensure     => directory,
-    require    => Package['iptables'],
+    ensure  => directory,
+    require => Package['iptables'],
   }
 
   # This file is not required on Red Hat distros... but it
