@@ -39,6 +39,15 @@ class iptables(
       enable     => true,
     }
     $notify_iptables = Service['iptables']
+
+    # On centos 7 firewalld and iptables-service confuse each other and you
+    # end up with no firewall rules at all. Disable firewalld so that
+    # iptables-service can be in charge.
+    if ($::osfamily == 'RedHat' and $::operatingsystemmajrelease >= '7') {
+      service { 'firewalld':
+        enable => false,
+      }
+    }
   }
 
   file { $::iptables::params::rules_dir:
