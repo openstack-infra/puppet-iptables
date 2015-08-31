@@ -44,10 +44,14 @@ class iptables(
     # end up with no firewall rules at all. Disable firewalld so that
     # iptables-service can be in charge.
     if ($::osfamily == 'RedHat' and $::operatingsystemmajrelease >= '7') {
-      service { 'firewalld':
-        ensure => 'stopped',
-        enable => false,
-        before => Package['iptables'],
+      exec { 'stop-firewalld-if-running':
+        command => '/usr/bin/systemctl stop firewalld',
+        onlyif  => '/usr/bin/pgrep firewalld',
+      }
+      package { 'firewalld':
+        ensure  => 'purged',
+        require => Exec['stop-firewalld-if-running'],
+        before  => Package['iptables'],
       }
     }
   }
