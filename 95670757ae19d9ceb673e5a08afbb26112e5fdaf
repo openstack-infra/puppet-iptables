@@ -1,0 +1,14 @@
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+2: Jenkins
+Code-Review+1: Paul Belanger <pabelanger@redhat.com>
+Code-Review+2: yolanda.robla <info@ysoft.biz>
+Code-Review+1: Ian Wienand <iwienand@redhat.com>
+Code-Review+1: Colleen Murphy <colleen@gazlene.net>
+Code-Review+1: Danilo Ramalho <dramalho@thoughtworks.com>
+Code-Review+1: Bruno Tavares <btavare@thoughtworks.com>
+Submitted-by: Jenkins
+Submitted-at: Sun, 15 Nov 2015 14:42:11 +0000
+Reviewed-on: https://review.openstack.org/219031
+Project: openstack-infra/puppet-iptables
+Branch: refs/heads/master
