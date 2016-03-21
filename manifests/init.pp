@@ -10,8 +10,8 @@
 #   public_tcp_ports: List of integer TCP ports on which to allow all traffic
 #   public_udp_ports: List of integer UDP ports on which to allow all traffic
 class iptables(
-  $rules4 = [],
-  $rules6 = [],
+  $rules4           = [],
+  $rules6           = [],
   $public_tcp_ports = [],
   $public_udp_ports = []
 ) {
