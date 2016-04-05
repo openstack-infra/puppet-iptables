@@ -101,4 +101,5 @@ class iptables(
     notify  => $notify_iptables,
     replace => true,
   }
+
 }
