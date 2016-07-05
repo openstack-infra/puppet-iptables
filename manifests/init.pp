@@ -30,14 +30,6 @@ class iptables(
     $notify_iptables = []
   }
   else {
-    service { 'iptables':
-      name       => $::iptables::params::service_name,
-      require    => Package['iptables'],
-      hasstatus  => $::iptables::params::service_has_status,
-      status     => $::iptables::params::service_status_cmd,
-      hasrestart => $::iptables::params::service_has_restart,
-      enable     => true,
-    }
     $notify_iptables = Service['iptables']
 
     # On centos 7 firewalld and iptables-service confuse each other and you
@@ -54,6 +46,15 @@ class iptables(
         before  => Package['iptables'],
       }
     }
+  }
+
+  service { 'iptables':
+    name       => $::iptables::params::service_name,
+    require    => Package['iptables'],
+    hasstatus  => $::iptables::params::service_has_status,
+    status     => $::iptables::params::service_status_cmd,
+    hasrestart => $::iptables::params::service_has_restart,
+    enable     => true,
   }
 
   file { $::iptables::params::rules_dir:
