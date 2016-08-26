@@ -30,6 +30,7 @@ class iptables::params {
         }
       }
       $service_name = 'iptables'
+      $servicev6_name = 'ip6tables'
       $rules_dir = '/etc/sysconfig'
       $ipv4_rules = '/etc/sysconfig/iptables'
       $ipv6_rules = '/etc/sysconfig/ip6tables'
