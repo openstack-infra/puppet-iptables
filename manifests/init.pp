@@ -28,10 +28,9 @@ class iptables(
       message => 'Iptables not refreshed, running in chroot',
     }
     $notify_iptables = []
+    $notify_ip6tables = []
   }
   else {
-    $notify_iptables = Service['iptables']
-
     # On centos 7 firewalld and iptables-service confuse each other and you
     # end up with no firewall rules at all. Disable firewalld so that
     # iptables-service can be in charge.
@@ -45,6 +44,11 @@ class iptables(
         require => Exec['stop-firewalld-if-running'],
         before  => Package['iptables'],
       }
+      $notify_iptables = Service['iptables']
+      $notify_ip6tables = Service['ip6tables']
+    } else {
+      $notify_iptables = Service['iptables']
+      $notify_ip6tables = Service['iptables']
     }
   }
 
@@ -55,6 +59,20 @@ class iptables(
     status     => $::iptables::params::service_status_cmd,
     hasrestart => $::iptables::params::service_has_restart,
     enable     => true,
+  }
+
+  if ($::osfamily == 'RedHat' and $::operatingsystemmajrelease >= '7') {
+    # NOTE(pabelanger): Centos-7 has a dedicated service for ip6tables. Aside
+    # from the different service name, we keep the same settings as iptables.
+    service { 'ip6tables':
+      name       => $::iptables::params::service6_name,
+      require    => Package['iptables'],
+      hasstatus  => $::iptables::params::service_has_status,
+      status     => $::iptables::params::service_status_cmd,
+      hasrestart => $::iptables::params::service_has_restart,
+      enable     => true,
+      subscribe  => File[$::iptables::params::ipv4_rules],
+    }
   }
 
   file { $::iptables::params::rules_dir:
@@ -99,7 +117,7 @@ class iptables(
       File[$::iptables::params::rules_dir],
     ],
     # When this file is updated, make sure the rules get reloaded.
-    notify  => $notify_iptables,
+    notify  => $notify_ip6tables,
     replace => true,
   }
 }
