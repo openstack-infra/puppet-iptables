@@ -9,8 +9,10 @@
 -A openstack-INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
 # SSH from anywhere
 -A openstack-INPUT -m state --state NEW -m tcp -p tcp --dport 22 -j ACCEPT
-# SNMP from openstack cacti
--A openstack-INPUT -m udp -p udp --dport 161 -s 2001:4800:7819:104:be76:4eff:fe05:1d6a -j ACCEPT
+# SNMP
+<% @snmp_v6hosts.each do |host| -%>
+-A openstack-INPUT -m udp -p udp --dport 161 -s <%= host %> -j ACCEPT
+<% end -%>
 # Public TCP ports
 <% @public_tcp_ports.each do |port| -%>
 -A openstack-INPUT -m state --state NEW -m tcp -p tcp --dport <%= port %> -j ACCEPT
