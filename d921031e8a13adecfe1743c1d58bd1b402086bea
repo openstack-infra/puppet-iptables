@@ -1,0 +1,11 @@
+Code-Review+1: Ramy Asselin <ramy.asselin@hpe.com>
+Code-Review+2: Ricardo Carrillo Cruz <ricardo.carrillo.cruz@gmail.com>
+Code-Review+2: yolanda.robla <yroblamo@redhat.com>
+Code-Review+2: Elizabeth K. Joseph <lyz@princessleia.com>
+Workflow+1: Ricardo Carrillo Cruz <ricardo.carrillo.cruz@gmail.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Tue, 04 Oct 2016 20:21:13 +0000
+Reviewed-on: https://review.openstack.org/362490
+Project: openstack-infra/puppet-iptables
+Branch: refs/heads/master
