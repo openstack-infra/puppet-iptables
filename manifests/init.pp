@@ -20,6 +20,19 @@ class iptables(
 
   include ::iptables::params
 
+  # This is to work-around rhbz#1327786 ; the iptables-service package
+  # incorrectly "provides" an old iptables version and confuses rpm,
+  # making it uninstallable (this was apparently done as part of a
+  # package-split).  Pre-installing the iptables instead of leaving it
+  # up to the dependency resolver works-around this.
+  if $::operatingsystem == 'Fedora' {
+    package { 'iptables-actual':
+      ensure => present,
+      name   => 'iptables',
+      before => Package['iptables']
+    }
+  }
+
   package { 'iptables':
     ensure => present,
     name   => $::iptables::params::package_name,
