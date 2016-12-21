@@ -1,0 +1,11 @@
+Code-Review+2: Spencer Krum <nibz@spencerkrum.com>
+Code-Review+1: Ramy Asselin <ramy.asselin@hpe.com>
+Code-Review+2: yolanda.robla <yroblamo@redhat.com>
+Code-Review+1: Mikhail S Medvedev <mihailmed@gmail.com>
+Workflow+1: yolanda.robla <yroblamo@redhat.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 21 Dec 2016 07:41:52 +0000
+Reviewed-on: https://review.openstack.org/362492
+Project: openstack-infra/puppet-iptables
+Branch: refs/heads/master
