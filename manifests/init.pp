@@ -14,8 +14,8 @@ class iptables(
   $rules6           = [],
   $public_tcp_ports = [],
   $public_udp_ports = [],
-  $snmp_v4hosts     = ['104.239.135.208'],
-  $snmp_v6hosts     = ['2001:4800:7819:104:be76:4eff:fe05:1d6a'],
+  $snmp_v4hosts     = [],
+  $snmp_v6hosts     = [],
 ) {
 
   include ::iptables::params
