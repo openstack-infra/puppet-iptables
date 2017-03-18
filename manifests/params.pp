@@ -37,6 +37,16 @@ class iptables::params {
       $service_has_status = true
       $service_status_cmd = undef
     }
+    'Suse': {
+      $package_name = 'iptables'
+      $service_has_restart = true
+      $service_name = 'SuSEfirewall2'
+      $rules_dir = '/etc/sysconfig'
+      $ipv4_rules = '/etc/sysconfig/iptables'
+      $ipv6_rules = '/etc/sysconfig/ip6tables'
+      $service_has_status = true
+      $service_status_cmd = undef
+    }
     'Debian': {
       $package_name = 'iptables-persistent'
       case $::operatingsystemrelease {

@@ -1,0 +1,4 @@
+fw_custom_after_finished() {
+    /usr/sbin/iptables-restore <%= scope['iptables::params::ipv4_rules'] %>
+    /usr/sbin/ip6tables-restore <%= scope['iptables::params::ipv6_rules'] %>
+}
