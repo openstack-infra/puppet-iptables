@@ -116,6 +116,29 @@ class iptables(
     notify  => $notify_iptables,
   }
 
+  # openSUSE's firewall service can use regular iptables rules, but we need to
+  # add a custom script to load them
+  if $::osfamily == 'SUSE' {
+    package { 'SuSEfirewall2':
+      ensure => present,
+    }
+    file_line { 'SuSEfirewall2 custom rules file':
+      ensure  => present,
+      path    => '/etc/sysconfig/SuSEfirewall2',
+      match   => '^FW_CUSTOMRULES=.*$',
+      line    => 'FW_CUSTOMRULES="/etc/sysconfig/scripts/SuSEfirewall2-custom"',
+      require => Package['SuSEfirewall2'],
+      notify  => $notify_iptables,
+    }
+    file { '/etc/sysconfig/scripts/SuSEfirewall2-custom':
+      ensure  => file,
+      content => template('iptables/SuSEfirewall2-custom.erb'),
+      mode    => '0755',
+      require => Package['SuSEfirewall2'],
+      notify  => $notify_iptables,
+    }
+  }
+
   file { $::iptables::params::ipv4_rules:
     ensure  => link,
     owner   => 'root',
