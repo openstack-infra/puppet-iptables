@@ -79,6 +79,7 @@ class iptables(
     status     => $::iptables::params::service_status_cmd,
     hasrestart => $::iptables::params::service_has_restart,
     enable     => true,
+    ensure     => running,
   }
 
   if ($::osfamily == 'RedHat') {
