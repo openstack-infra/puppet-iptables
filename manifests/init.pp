@@ -73,6 +73,7 @@ class iptables(
   }
 
   service { 'iptables':
+    ensure     => running,
     name       => $::iptables::params::service_name,
     require    => Package['iptables'],
     hasstatus  => $::iptables::params::service_has_status,
@@ -85,6 +86,7 @@ class iptables(
     # NOTE(pabelanger): Centos-7 has a dedicated service for ip6tables. Aside
     # from the different service name, we keep the same settings as iptables.
     service { 'ip6tables':
+      ensure     => running,
       name       => $::iptables::params::service6_name,
       require    => Package['iptables'],
       hasstatus  => $::iptables::params::service_has_status,
