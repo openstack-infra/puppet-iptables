@@ -73,6 +73,7 @@ class iptables(
   }
 
   service { 'iptables':
+    ensure     => running,
     name       => $::iptables::params::service_name,
     require    => Package['iptables'],
     hasstatus  => $::iptables::params::service_has_status,
