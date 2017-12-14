@@ -1,0 +1,11 @@
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Paul Belanger <pabelanger@redhat.com>
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Workflow+1: James E. Blair <corvus@inaugust.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Thu, 14 Dec 2017 22:36:46 +0000
+Reviewed-on: https://review.openstack.org/528043
+Project: openstack-infra/puppet-iptables
+Branch: refs/heads/master
