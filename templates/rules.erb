@@ -26,5 +26,10 @@
 <% @rules4.each do |rule| -%>
 -A openstack-INPUT <%= rule %>
 <% end -%>
+<% @allowed_hosts.each do |host| -%>
+<% scope.call_function('dns_a', [host['hostname']]).each do |addr| -%>
+-A openstack-INPUT -m state --state NEW -m <%= host['protocol'] %> -p <%= host['protocol'] %> -s <%= addr %> --dport <%= host['port'] %> -j ACCEPT
+<% end -%>
+<% end -%>
 -A openstack-INPUT -j REJECT --reject-with icmp-host-prohibited
 COMMIT
