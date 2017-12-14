@@ -93,6 +93,31 @@ class iptables(
       enable     => true,
       subscribe  => File["${::iptables::params::rules_dir}/rules"],
     }
+  } elsif ($::operatingsystem == 'Ubuntu') and ($::operatingsystemrelease >= '16.04') {
+    # The base service on newer ubuntu is started before networking is up so
+    # cannot resolve names in rules files. We add a supplmental service that
+    # starts after Unbound so that names in rules can be resolved. Because
+    # these services aren't persistent processes this should just work (tm)
+    file { '/etc/systemd/system/infra-netfilter-persistent.service':
+      ensure  => present,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0646',
+      source  => 'puppet:///modules/iptables/infra-netfilter-persistent.service',
+    }
+    exec { 'netfilter-persistent-daemon-reload':
+      command     => '/bin/systemctl daemon-reload',
+      subscribe   => File['/etc/systemd/system/infra-netfilter-persistent.service'],
+      refreshonly => true,
+    }
+    service { 'infra-netfilter-persistent':
+      require    => Package['iptables'],
+      hasstatus  => $::iptables::params::service_has_status,
+      status     => $::iptables::params::service_status_cmd,
+      hasrestart => $::iptables::params::service_has_restart,
+      enable     => true,
+      require    => Exec['netfilter-persistent-daemon-reload'],
+    }
   }
 
   file { $::iptables::params::rules_dir:

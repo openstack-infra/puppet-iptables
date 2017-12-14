@@ -1,0 +1,14 @@
+[Unit]
+Description=netfilter persistent configuration override to run after network bring up
+DefaultDependencies=no
+Wants=systemd-modules-load.service local-fs.target unbound.service
+After=systemd-modules-load.service local-fs.target unbound.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/netfilter-persistent start
+ExecStop=/usr/sbin/netfilter-persistent stop
+
+[Install]
+WantedBy=multi-user.target
