@@ -9,6 +9,12 @@
 #          eg: [ '-m udp -p udp -s ::1 --dport 8125 -j ACCEPT' ]
 #   public_tcp_ports: List of integer TCP ports on which to allow all traffic
 #   public_udp_ports: List of integer UDP ports on which to allow all traffic
+#   allowed_hosts: An array of hashes in the form:
+#      hostname => str
+#      port => int
+#      protocol => 'udp' or 'tcp'
+#   All entries in allowed_hosts will be resolved to ip addresses and added as
+#   additional ACCEPT rules
 class iptables(
   $rules4           = [],
   $rules6           = [],
@@ -16,6 +22,7 @@ class iptables(
   $public_udp_ports = [],
   $snmp_v4hosts     = [],
   $snmp_v6hosts     = [],
+  $allowed_hosts    = [],
 ) {
 
   include ::iptables::params
