@@ -25,10 +25,13 @@
 <% @rules6.each do |rule| -%>
 -A openstack-INPUT <%= rule %>
 <% end -%>
+<% begin -%>
 <% @allowed_hosts.each do |host| -%>
 <% scope.call_function('dns_aaaa', [host['hostname']]).each do |addr| -%>
 -A openstack-INPUT <% if host['protocol'] == 'tcp' %>-m state --state NEW <% end -%>-m <%= host['protocol'] %> -p <%= host['protocol'] %> -s <%= addr %> --dport <%= host['port'] %> -j ACCEPT
 <% end -%>
+<% end -%>
+<% rescue Resolv::ResolvError -%>
 <% end -%>
 -A openstack-INPUT -j REJECT --reject-with icmp6-adm-prohibited
 COMMIT
