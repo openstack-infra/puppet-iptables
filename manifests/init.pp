@@ -125,11 +125,17 @@ class iptables(
     notify  => $notify_iptables,
   }
 
+  if $::osfamily == 'redhat' {
+    $seltype = 'etc_t'
+  } else {
+    $seltype = undef
+  }
+
   file { $::iptables::params::ipv4_rules:
     ensure  => link,
     owner   => 'root',
     group   => 'root',
-    mode    => '0640',
+    seltype => $seltype,
     target  => "${::iptables::params::rules_dir}/rules",
     require => File["${::iptables::params::rules_dir}/rules"],
     notify  => $notify_iptables,
