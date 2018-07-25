@@ -68,7 +68,7 @@ class iptables(
           onlyif  => '/usr/bin/pgrep firewalld',
         }
         package { 'firewalld':
-          ensure  => 'purged',
+          ensure  => absent,
           require => Exec['stop-firewalld-if-running'],
           before  => Package['iptables'],
         }
