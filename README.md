@@ -1,3 +1,3 @@
-# OpenStack IPTables Module
+# This repo has moved to OpenDev
 
-This module installs and configures IPTables
+It can now be found at [https://opendev.org/opendev/puppet-iptables](https://opendev.org/opendev/puppet-iptables)
